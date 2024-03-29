@@ -1,6 +1,4 @@
-# launch-school-first-repo
+# launch-school
 
+All the coding challenges and assignments as well as projects to be stored here.
 
-First repository for Launch School. Learning Git/Github.
-
-Now, making changes directly in the remote repo.
