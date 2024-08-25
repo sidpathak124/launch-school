@@ -1,0 +1,842 @@
+"use strict";
+
+// console.log("Hello".constructor.name);
+// console.log([1, 2, 3].constructor.name);
+// console.log({ name: "Srdjan" }.constructor.name);
+
+// ----------------------------------------------------------------------------------------
+
+// class Cat {
+//   constructor(name) {
+//     this.name = name;
+//     console.log(this);
+//   }
+
+//   greet() {
+//     console.log(this);
+//     console.log(`Hello! My name is ${this.name}!`);
+//   }
+// }
+
+// let kitty = new Cat("Sophie");
+// kitty.greet();
+
+// ----------------------------------------------------------------------------------------
+
+// class Person {
+//   constructor(name = "John Doe") {
+//     this.name = name;
+//   }
+// }
+
+// let person1 = new Person();
+// let person2 = new Person("Pepe");
+
+// console.log(person1.name); // John Doe
+// console.log(person2.name); // Pepe
+
+// ----------------------------------------------------------------------------------------
+
+// class Cat {
+//   constructor(name) {
+//     this.name = name;
+//   }
+
+//   rename(newName) {
+//     this.name = newName;
+//   }
+// }
+
+// let kitty = new Cat("Sophie");
+// console.log(kitty.name); // Sophie
+// kitty.rename("Chloe");
+// console.log(kitty.name); // Chloe
+
+// ----------------------------------------------------------------------------------------
+
+// class Cat {
+//   constructor(name) {
+//     this.name = name;
+//   }
+
+//   static genericGreeting() {
+//     console.log(`Hello! I'm a ${this.name}`);
+//   }
+
+//   personalGreeting() {
+//     console.log(`Hello! My name is ${this.name}`);
+//   }
+// }
+
+// let kitty = new Cat("Sophie");
+// Cat.genericGreeting();
+// kitty.personalGreeting();
+
+// ------------------------------Inheritance and Mixins------------------------------------
+// ----------------------------------------------------------------------------------------
+
+// class Vehicle {
+//   constructor(year) {
+//     this.year = year;
+//   }
+// }
+
+// class Truck extends Vehicle {
+//   // constructor(year) {
+//   //   super(year);
+//   // }
+// }
+
+// class Car extends Vehicle {
+//   // constructor(year) {
+//   //   super(year);
+//   // }
+// }
+
+// let truck = new Truck(2003);
+// console.log(truck.year); // 2003
+
+// let car = new Car(2015);
+// console.log(car.year); // 2015
+// console.log(car.constructor);
+// console.log(Car.constructor);
+
+// ----------------------------------------------------------------------------------------
+
+// With OLOO
+
+// let VehicleHub = {
+//   init: function (year) {
+//     this.year = year;
+//     return this;
+//   },
+// };
+
+// let TruckHub = Object.create(VehicleHub);
+
+// TruckHub.init = function (year) {
+//   VehicleHub.init.call(this, year);
+//   this.startEngine();
+//   return this;
+// };
+
+// TruckHub.startEngine = function () {
+//   console.log("Ready to go!");
+// };
+
+// let truck = Object.create(TruckHub).init(2003);
+
+// With Constructors
+// function VehicleConstructor(year) {
+//   this.year = year;
+// }
+
+// function TruckConstructor(year) {
+//   VehicleConstructor.call(this, year);
+//   this.startEngine();
+// }
+
+// TruckConstructor.prototype = Object.create(VehicleConstructor.prototype);
+// TruckConstructor.prototype.constructor = TruckConstructor;
+
+// TruckConstructor.prototype.startEngine = function () {
+//   console.log("Ready to go!");
+// };
+
+// let truck = new TruckConstructor(2003);
+// truck.startEngine();
+
+// With Classes
+// class Vehicle {
+//   constructor(year) {
+//     this.year = year;
+//   }
+// }
+
+// class Truck extends Vehicle {
+//   constructor(year) {
+//     super(year);
+//     this.startEngine();
+//   }
+//   startEngine() {
+//     console.log("Ready to go!");
+//   }
+// }
+
+// let truck = new Truck(2003);
+// console.log(truck.year); // 2003
+
+// ----------------------------------------------------------------------------------------
+// class Vehicle {
+//   constructor(year) {
+//     this.year = year;
+//   }
+// }
+
+// class Truck extends Vehicle {
+//   constructor(year, bedType) {
+//     super(year);
+//     this.bedType = bedType;
+//   }
+// }
+
+// class Car extends Vehicle {}
+
+// let truck1 = new Truck(2003, "Short");
+// console.log(truck1.year);
+// console.log(truck1.bedType);
+// ----------------------------------------------------------------------------------------
+
+// class Vehicle {
+//   startEngine() {
+//     return "Ready to go!";
+//   }
+// }
+
+// class Truck extends Vehicle {
+//   startEngine(speed) {
+//     return super.startEngine() + ` Drive ${speed}, please!`;
+//   }
+// }
+
+// let truck1 = new Truck();
+// console.log(truck1.startEngine("fast"));
+
+// let truck2 = new Truck();
+// console.log(truck2.startEngine("slow"));
+
+// ----------------------------------------------------------------------------------------
+
+// let walkMixin = {
+//   walk() {
+//     return `Let's go for a walk!`;
+//   },
+// };
+
+// class Cat {
+//   constructor(name) {
+//     this.name = name;
+//   }
+
+//   greet() {
+//     return `Hello! My name is ${this.name}!`;
+//   }
+// }
+// Object.assign(Cat.prototype, walkMixin);
+
+// let kitty = new Cat("Sophie");
+// console.log(kitty.greet());
+// console.log(kitty.walk());
+
+// ----------------------------------------------------------------------------------------
+
+// const swimMixin = {
+//   swim() {
+//     return `${this.name} is swimming.`;
+//   },
+// };
+
+// class Fish {
+//   constructor(name) {
+//     this.name = name;
+//   }
+// }
+// Object.assign(Fish.prototype, swimMixin);
+
+// class Dog {
+//   constructor(name) {
+//     this.name = name;
+//   }
+// }
+// Object.assign(Dog.prototype, swimMixin);
+
+// class Maltese extends Dog {}
+
+// let dog1 = new Maltese("Buddy");
+// let fish1 = new Fish("Nemo");
+
+// console.log(dog1.swim());
+// console.log(fish1.swim());
+
+// ----------------------------------------------------------------------------------------
+
+// let towMixin = {
+//   tow() {
+//     console.log(`I can tow a trailer!`);
+//   },
+// };
+
+// class Truck {}
+// Object.assign(Truck.prototype, towMixin);
+
+// class Car {}
+
+// let truck = new Truck();
+// truck.tow();
+
+// ----------------------------------------------------------------------------------------
+
+// const towMixin = {
+//   tow() {
+//     return "I can tow a trailer!";
+//   },
+// };
+
+// class Vehicle {
+//   constructor(year) {
+//     this.year = year;
+//   }
+// }
+
+// class Truck extends Vehicle {
+//   // constructor(year) {
+//   //   super(year);
+//   //   Object.assign(this, towMixin);
+//   // }
+// }
+// Object.assign(Truck.prototype, towMixin);
+
+// class Car extends Vehicle {
+//   // constructor(year) {
+//   //   super(year);
+//   //   this.year = year;
+//   // }
+// }
+
+// let truck = new Truck(2002);
+// console.log(truck.year);
+// console.log(truck.tow());
+
+// let car = new Car(2015);
+// console.log(car.year);
+
+// ------------------------------------  EASY  --------------------------------------------
+// ----------------------------------------------------------------------------------------
+
+// class Rectangle {
+//   constructor(width, length) {
+//     this.width = width;
+//     this.length = length;
+//   }
+
+//   getWidth() {
+//     console.log(this);
+//     return this.width;
+//   }
+
+//   getLength() {
+//     return this.length;
+//   }
+
+//   getArea() {
+//     return this.width * this.length;
+//   }
+// }
+
+// let rect = new Rectangle(4, 5);
+
+// console.log(rect.getWidth()); // 4
+// console.log(rect.getLength()); // 5
+// console.log(rect.getArea()); // 20
+
+// ----------------------------------------------------------------------------------------
+
+// class Rectangle {
+//   constructor(width, length) {
+//     this.width = width;
+//     this.length = length;
+//   }
+
+//   getWidth() {
+//     return this.width;
+//   }
+
+//   getLength() {
+//     return this.length;
+//   }
+
+//   getArea() {
+//     return this.width * this.length;
+//   }
+// }
+// class Square extends Rectangle {
+//   constructor(side) {
+//     super(side, side);
+//   }
+// }
+
+// function Rectangle(length, width) {
+//   this.length = length;
+//   this.width = width;
+// }
+
+// Rectangle.prototype.getWidth = function () {
+//   return this.width;
+// };
+
+// Rectangle.prototype.getLength = function () {
+//   return this.length;
+// };
+
+// Rectangle.prototype.getArea = function () {
+//   return this.length * this.width;
+// };
+
+// function Square(side) {
+//   Rectangle.call(this, side, side);
+// }
+// Square.prototype = Object.create(Rectangle.prototype);
+// Square.prototype.constructor = Square;
+
+// let square = new Square(5);
+// console.log(`area of square = ${square.getArea()}`); // area of square = 25
+// ----------------------------------------------------------------------------------------
+
+// class Cat {
+//   constructor(name) {
+//     this.name = name;
+//   }
+//   speaks() {
+//     return `${this.name} says meowwww.`;
+//   }
+// }
+
+// let fakeCat = Object.create(Cat.prototype); // your implementation
+
+// OLOOP
+// let Cat = {
+//   init(name) {
+//     this.name = name;
+//     return this;
+//   },
+
+//   speaks() {
+//     return `${this.name} says meowwww.`;
+//   },
+// };
+
+// let fakeCat = Object.create(Cat);
+
+// // console.log(fakeCat);
+// console.log(Cat.isPrototypeOf(fakeCat));
+// // console.log(fakeCat instanceof Cat); // logs true
+// console.log(fakeCat.name); // logs undefined
+// console.log(fakeCat.speaks()); // logs undefined says meowwww.
+
+// ----------------------------------------------------------------------------------------
+// class Pet {
+//   constructor(name, age) {
+//     this.name = name;
+//     this.age = age;
+//   }
+// }
+
+// class Cat extends Pet {
+//   constructor(name, age, color) {
+//     super(name, age);
+//     this.color = color;
+//   }
+
+//   info() {
+//     return `My cat ${this.name} is ${this.age} years old and has ${this.color} fur.`;
+//   }
+// }
+
+// let pudding = new Cat("Pudding", 7, "black and white");
+// let butterscotch = new Cat("Butterscotch", 10, "tan and white");
+
+// console.log(pudding.info());
+// console.log(butterscotch.info());
+
+// ----------------------------------------------------------------------------------------
+// class Animal {
+//   constructor(name, age, legs, species, status) {
+//     this.name = name;
+//     this.age = age;
+//     this.legs = legs;
+//     this.species = species;
+//     this.status = status;
+//   }
+//   introduce() {
+//     return `Hello, my name is ${this.name} and I am ${this.age} years old and ${this.status}.`;
+//   }
+// }
+
+// class Cat extends Animal {
+//   constructor(name, age, status, legs = 4, species = "cat") {
+//     super(name, age, legs, species, status);
+//   }
+
+//   introduce() {
+//     return super.introduce() + ` Meow meow!`;
+//   }
+// }
+
+// let cat = new Cat("Pepe", 2, "happy");
+// console.log(cat.introduce());
+
+// class Dog extends Animal {
+//   constructor(name, age, status, master, legs = 4, species = "cat") {
+//     super(name, age, legs, species, status);
+//     this.master = master;
+//   }
+
+//   greetMaster() {
+//     return `Hello ${this.master}! Woof, woof!`;
+//   }
+// }
+
+// let dog = new Dog("Bruno", 4, "Jolly", "Thyself");
+// console.log(dog.greetMaster());
+// logs true
+
+// ----------------------------------------------------------------------------------------
+// class Vehicle {
+//   constructor(make, model) {
+//     this.make = make;
+//     this.model = model;
+//   }
+
+//   info() {
+//     return `${this.make} ${this.model}`;
+//   }
+// }
+
+// class Car extends Vehicle {
+//   getWheels() {
+//     return 4;
+//   }
+// }
+
+// class Motorcycle extends Vehicle {
+//   getWheels() {
+//     return 2;
+//   }
+// }
+
+// class Truck extends Vehicle {
+//   constructor(make, model, payload) {
+//     super(make, model);
+//     this.payload = payload;
+//   }
+
+//   getWheels() {
+//     return 6;
+//   }
+// }
+
+// let car = new Car("Tata", "Harrier");
+// let motorcycle = new Motorcycle("Kawasaki", "Ninja");
+// let truck = new Truck("Mahindra", "X790");
+
+// console.log(`${car.info()} has ${car.getWheels()} wheels`);
+// console.log(`${motorcycle.info()} has ${motorcycle.getWheels()} wheels`);
+// console.log(`${truck.info()} has ${truck.getWheels()} wheels`);
+// ----------------------------------------------------------------------------------------
+
+// class Something {
+//   constructor() {
+//     this.data = "Hello";
+//   }
+
+//   dupData() {
+//     return this.data + this.data;
+//   }
+
+//   static dupData() {
+//     return "ByeBye";
+//   }
+// }
+
+// let thing = new Something();
+// console.log(Something.dupData());
+// console.log(thing.dupData());
+
+// ----------------------------------------------------------------------------------------
+
+// class Person {
+//   greeting(text) {
+//     console.log(text);
+//   }
+// }
+
+// class Shouter extends Person {
+//   greeting(text) {
+//     super.greeting(text.toUpperCase());
+//   }
+// }
+
+// let person = new Person();
+// let shouter = new Shouter();
+
+// person.greeting("Hello. It's very nice to meet you."); // Hello. It's very nice to meet you
+// shouter.greeting("Hello my friend."); // HELLO MY FRIEND.
+// ----------------------------------------------------------------------------------------
+// class Mammal {
+//   constructor(name, gait) {
+//     this.name = name;
+//     this.gait = gait;
+//   }
+
+//   walk() {
+//     return `${this.name} ${this.gait} forward`;
+//   }
+// }
+
+// class Person extends Mammal {
+//   constructor(name) {
+//     super(name, "strolls");
+//   }
+// }
+
+// class Cat extends Mammal {
+//   constructor(name) {
+//     super(name, "saunters");
+//   }
+// }
+
+// class Cheetah extends Mammal {
+//   constructor(name) {
+//     super(name, "runs");
+//   }
+// }
+
+// let walkMixin = {
+//   walk() {
+//     return `${this.name} ${this.gait()} forward`;
+//   },
+// };
+
+// class Person {
+//   constructor(name) {
+//     this.name = name;
+//   }
+
+//   gait() {
+//     return "strolls";
+//   }
+// }
+// Object.assign(Person.prototype, walkMixin);
+
+// class Cat {
+//   constructor(name) {
+//     this.name = name;
+//   }
+
+//   gait() {
+//     return "saunters";
+//   }
+// }
+// Object.assign(Cat.prototype, walkMixin);
+
+// class Cheetah {
+//   constructor(name) {
+//     this.name = name;
+//   }
+
+//   gait() {
+//     return "runs";
+//   }
+// }
+// Object.assign(Cheetah.prototype, walkMixin);
+
+// let mike = new Person("Mike");
+// console.log(mike.walk());
+// // "Mike strolls forward"
+
+// let kitty = new Cat("Kitty");
+// console.log(kitty.walk());
+// // "Kitty saunters forward"
+
+// let flash = new Cheetah("Flash");
+// console.log(flash.walk());
+// "Flash runs forward"
+
+// ----------------------------------------------------------------------------------------
+// let adoption = {
+//   ownershipRecords: {},
+// };
+
+// class Pet {
+//   constructor(species, petName) {
+//     this.species = species;
+//     this.petName = petName;
+//   }
+// }
+
+// class Owner {
+//   constructor(name) {
+//     this.name = name;
+//   }
+
+//   numberOfPets() {
+//     return this.ownershipRecords[this.name].length;
+//   }
+// }
+// Object.assign(Owner.prototype, adoption);
+
+// class Shelter {
+//   static unadoptedPets = [];
+
+//   addOrphan(pet) {
+//     Shelter.unadoptedPets.push(pet);
+//   }
+
+//   adopt(owner, pet) {
+//     if (!this.ownershipRecords[owner.name]) {
+//       this.ownershipRecords[owner.name] = [];
+//     }
+//     this.ownershipRecords[owner.name].push(pet);
+//   }
+
+//   printAdoptions() {
+//     Object.entries(this.ownershipRecords).forEach((rec) => {
+//       console.log(`${rec[0]} has adopted the following pets:`);
+//       let pets = rec[1];
+//       pets.forEach((pet) => {
+//         console.log(`a ${pet.species} named ${pet.petName}`);
+//       });
+//       console.log(``);
+//     });
+//   }
+
+//   printUnadoptedPets() {
+//     console.log(`The animal shelter has the following unadopted pets:`);
+//     Shelter.unadoptedPets.forEach((pet) => {
+//       console.log(`A ${pet.species} named ${pet.petName}`);
+//     });
+//     console.log(``);
+//   }
+// }
+// Object.assign(Shelter.prototype, adoption);
+
+// let butterscotch = new Pet("cat", "Butterscotch");
+// let pudding = new Pet("cat", "Pudding");
+// let darwin = new Pet("bearded dragon", "Darwin");
+// let kennedy = new Pet("dog", "Kennedy");
+// let sweetie = new Pet("parakeet", "Sweetie Pie");
+// let molly = new Pet("dog", "Molly");
+// let chester = new Pet("fish", "Chester");
+
+// let asta = new Pet("dog", "Asta");
+// let laddy = new Pet("dog", "Laddy");
+// let fluffy = new Pet("cat", "Fluffy");
+// let kat = new Pet("cat", "Kat");
+// let ben = new Pet("cat", "Ben");
+// let chatterbox = new Pet("parakeet", "Chatterbox");
+// let bluebell = new Pet("parakeet", "Bluebell");
+
+// let phanson = new Owner("P Hanson");
+// let bholmes = new Owner("B Holmes");
+
+// let shelter = new Shelter();
+// shelter.adopt(phanson, butterscotch);
+// shelter.adopt(phanson, pudding);
+// shelter.adopt(phanson, darwin);
+// shelter.adopt(bholmes, kennedy);
+// shelter.adopt(bholmes, sweetie);
+// shelter.adopt(bholmes, molly);
+// shelter.adopt(bholmes, chester);
+
+// shelter.addOrphan(asta);
+// shelter.addOrphan(laddy);
+// shelter.addOrphan(fluffy);
+// shelter.addOrphan(kat);
+// shelter.addOrphan(ben);
+// shelter.addOrphan(chatterbox);
+// shelter.addOrphan(bluebell);
+
+// shelter.printAdoptions();
+// shelter.printUnadoptedPets();
+// console.log(`${phanson.name} has ${phanson.numberOfPets()} adopted pets.`);
+// console.log(`${bholmes.name} has ${bholmes.numberOfPets()} adopted pets.`);
+// console.log(
+//   `The Animal shelter has ${Shelter.unadoptedPets.length} unadopted pets.`
+// );
+
+// ----------------------------------------------------------------------------------------
+// class Banner {
+//   constructor(message, bannerWidth = message.length + 2) {
+//     this.message = message;
+//     if (
+//       (message !== "" && bannerWidth < 3) ||
+//       (message === "" && bannerWidth < 2)
+//     )
+//       throw Error("Bannerwidth too small");
+//     this.bannerWidth = bannerWidth;
+//   }
+
+//   displayBanner() {
+//     console.log(
+//       [
+//         this.horizontalRule(),
+//         this.emptyLine(),
+//         this.messageLine(),
+//         this.emptyLine(),
+//         this.horizontalRule(),
+//       ].join("\n")
+//     );
+//   }
+
+//   horizontalRule() {
+//     return `+${"-".repeat(this.bannerWidth)}+`;
+//   }
+
+//   emptyLine() {
+//     return `|${" ".repeat(this.bannerWidth)}|`;
+//   }
+
+//   messageLine() {
+//     let padding = (this.bannerWidth - this.message.length) / 2;
+//     if (padding > 0) {
+//       return `|${" ".repeat(padding)}${this.message}${" ".repeat(padding)}|`;
+//     }
+//     let textLen = this.bannerWidth - 2;
+//     let str = ``;
+//     for (let i = 0; i < this.message.length; i += textLen) {
+//       if (i + textLen >= this.message.length) {
+//         let space = " ".repeat(i + textLen + 1 - this.message.length);
+//         str += `| ${this.message.slice(i, i + textLen)}${space}|`;
+//       } else {
+//         str += `| ${this.message.slice(i, i + textLen)} |\n`;
+//       }
+//     }
+//     return str;
+//   }
+// }
+
+// let banner1 = new Banner("To boldly go where no one has gone before.", 50);
+// banner1.displayBanner();
+
+// let banner2 = new Banner("To boldly go where no one has gone before.", 10);
+// banner2.displayBanner();
+
+// let banner3 = new Banner("");
+// banner3.displayBanner();
+
+// // --------------------------------------------------+
+// // |                                                  |
+// // |    To boldly go where no one has gone before.    |
+// // |                                                  |
+// // +--------------------------------------------------+
+
+// // +----------+
+// // |          |
+// // | To boldl |
+// // | y go whe |
+// // | re no on |
+// // | e has go |
+// // | ne befor |
+// // | e.       |
+// // |          |
+// // +----------+
+
+// // +--+
+// // |  |
+// // |  |
+// // |  |
+// // +--+
+
+// ----------------------------------------------------------------------------------------
+
+console.log("\nthe end");

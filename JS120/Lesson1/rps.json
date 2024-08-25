@@ -1,0 +1,16 @@
+{
+  "welcome": "Welcome to Rock-Paper-Scissors-Lizard-Spock!'",
+  "gamerules": "The Rules:\n   Scissors cuts paper and decapitates lizard.\n   Paper covers rock and disproves Spock.\n   Rock smashes scissors and crushes lizard.\n   Lizard eats paper and poisons Spock.\n   Spock vaporizes rock and destroys scissors.",
+  "win condition": "The first to 3 wins. Good Luck!",
+  "choice": "Choose one: Rock (r), Paper (p), Scissors (sc), Lizzard (l), or Spock (sp)",
+  "invalidChoice": "That is not a valid choice, please try again.",
+  "you win": "You won this round!",
+  "you lose": "The computer won this round...",
+  "tie": "...You tied.",
+  "play again": " Do you want to play again? (y/n)",
+  "invalidAns": "Invalid answer, please input 'y' or 'n'.",
+  "win game": "You won! Congrats!",
+  "lost game": "You lost the game :(...",
+  "Thanks": "Thanks for playing!",
+  "display moves" : "Would you like to display the move history? (y/n) "
+}

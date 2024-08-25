@@ -1,0 +1,14 @@
+{
+"en": {"welcome": "Welcome to the Calculator"
+, "invalid": "That doesn't look like a valid number:"
+, "first": "Enter first number: "
+, "second": "Enter second number: "
+, "enter_operations": "Enter the operation you want to perform: +, -, *, /, or ** -:"
+, "another_calculation": "Would you like to perform another calculation?\nEnter 'y' for Yes!, Enter any other key for No!"}, 
+"fr": {"welcome": "Bienvenue sur la calculatrice"
+, "invalid": "Cela ne ressemble pas à un numéro valide"
+, "first": "Entrez le premier numéro: "
+, "second": "Entrez le deuxième numéro: "
+, "enter_operations": "Entrez l'opération que vous souhaitez effectuer"
+, "another_calculation": "Souhaitez-vous effectuer un autre calcul?\nEntrez y pour oui, entrez n'importe quelle autre clé pour non"}
+}

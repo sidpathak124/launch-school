@@ -76,7 +76,6 @@
 //Problem-3
 //-------------------------------------------------------------------------------------------------------------------------------------
 
-
 // // Using for-loop
 // function stringy(num) {
 //   let binStr = '';
@@ -93,8 +92,6 @@
 
 // // Sleeker soln
 // const stringy = num => ''.padStart(num, '10');
-
-
 
 // console.log(stringy(6));
 // console.log(stringy(9));
@@ -195,7 +192,7 @@
 
 // function getGrade(...scores) {
 //   const scoreToGrades = {
-//     10: 'A', 9: 'B', 8: 'C', 7: 'D' 
+//     10: 'A', 9: 'B', 8: 'C', 7: 'D'
 //   }
 //   const score = scores.reduce((acc, curr) => acc + curr) / scores.length;
 //   const point = Math.ceil(score / 10);
@@ -267,32 +264,67 @@
 //   return text[text.length - 1] !== ' ';
 // }
 
-
 // cleanUp("---what's my +*& line?");    // " what s my line "
 
 //Problem-10
 //-------------------------------------------------------------------------------------------------------------------------------------
 
-function century (year) {
-  const suffix = {1: 'st', 2: 'nd', 3: 'rd'};
+// function century (year) {
+//   const suffix = {1: 'st', 2: 'nd', 3: 'rd'};
 
-  const century = Math.ceil(year / 100);
-  const lastTwoDigits = Number(String(century).slice(-2));
-  const lastDigit = Number(String(century).slice(-1));
+//   const century = Math.ceil(year / 100);
+//   const lastTwoDigits = Number(String(century).slice(-2));
+//   const lastDigit = Number(String(century).slice(-1));
 
-  if (lastTwoDigits > 3 && lastTwoDigits < 20) {
-    console.log(`${century}th`);
-  } else {
-    console.log(`${century}${suffix[lastDigit]}`);
-  }
+//   if (lastTwoDigits > 3 && lastTwoDigits < 20) {
+//     console.log(`${century}th`);
+//   } else {
+//     console.log(`${century}${suffix[lastDigit]}`);
+//   }
+// }
+
+// century(2000);        // "20th"
+// century(2001);        // "21st"
+// century(1965);        // "20th"
+// century(256);         // "3rd"
+// century(5);           // "1st"
+// century(10103);       // "102nd"
+// century(1052);        // "11th"
+// century(1127);        // "12th"
+// century(11201);       // "113th"
+
+function everyOther(arr) {
+  const altArr = arr.filter((_, idx) => idx % 2 === 0);
+  return altArr;
 }
 
-century(2000);        // "20th"
-century(2001);        // "21st"
-century(1965);        // "20th"
-century(256);         // "3rd"
-century(5);           // "1st"
-century(10103);       // "102nd"
-century(1052);        // "11th"
-century(1127);        // "12th"
-century(11201);       // "113th"
+// console.log(everyOther([1, 4, 7, 2, 5])); // => [1,7,5];
+
+function thirdIndex(str, char) {
+  let occur = 0; // occurence count of char
+
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] === char) {
+      occur++;
+      // return index for third occurence of char
+      if (occur === 3) return i;
+    }
+  }
+  return null;
+}
+
+// console.log(thirdIndex("axbxcdxex", "x"));
+// console.log(thirdIndex("axbxcdxex", "b"));
+
+const merge = function (arr1, arr2) {
+  const merged = [];
+
+  for (let i = 0; i < arr1.length; i++) {
+    merged.push(arr1[i]);
+    merged.push(arr2[i]);
+  }
+
+  return merged;
+};
+
+console.log(merge([1, 2, 3], [4, 5, 6])); // => [1, 4, 2, 5, 3, 6]

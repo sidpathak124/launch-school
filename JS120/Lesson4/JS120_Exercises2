@@ -1,0 +1,695 @@
+"use strict";
+
+// ----------------------------------------OBJECTS-----------------------------------------
+// ----------------------------------------------------------------------------------------
+
+// function createGreeter(name) {
+//   return {
+//     name: name,
+//     morning: "Good Morning",
+//     afternoon: "Good Afternoon",
+//     evening: "Good Evening",
+//     greet: function (timeOfDay) {
+//       let msg = "";
+//       switch (timeOfDay) {
+//         case "morning":
+//           msg += `${this.morning} ${name}`;
+//           break;
+//         case "afternoon":
+//           msg += `${this.afternoon} ${name}`;
+//           break;
+//         case "evening":
+//           msg += `${this.evening} ${name}`;
+//           break;
+//       }
+
+//       console.log(msg);
+//     },
+//   };
+// }
+
+// let helloVictor = createGreeter("Victor");
+// helloVictor.name = "Vic";
+// helloVictor.greet("morning");
+// ----------------------------------------------------------------------------------------
+
+// let item = {
+//   name: "Foo",
+//   description: "Fusce consequat dui est, semper.",
+//   price: 50,
+//   quantity: 100,
+//   discount: function (percent) {
+//     let discount = (this.price * percent) / 100;
+//     // this.price -= discount;
+//     return this.price - discount;
+//   },
+// };
+
+// console.log(item.discount(20));
+// console.log(item.discount(50));
+// console.log(item.discount(25));
+// ----------------------------------------------------------------------------------------
+
+// function objectsEqual(objA, objB) {
+//   // if two objects are of unequal length return false
+//   if (Object.keys(objA).length !== Object.keys(objA).length) return false;
+
+//   for (const arr of Object.entries(objA)) {
+//     // if a key in objA is absent from objB return false
+//     if (!(arr[0] in objB)) return false;
+//     // if key is a nested object, recursively call this fn
+//     //   if nested objects are equal continue, else return false
+//     if (typeof objA[arr[0]] === "object") {
+//       if (objectsEqual(objA[arr[0]], objB[arr[0]])) {
+//         continue;
+//       } else {
+//         return false;
+//       }
+//     }
+//     // if values are different return false
+//     if (objB[arr[0]] !== objA[arr[0]]) return false;
+//   }
+//   return true;
+// }
+
+// function objectsEqual(obj1, obj2) {
+//   let keys1 = Object.keys(obj1);
+//   let keys2 = Object.keys(obj2);
+
+//   if (keys1.length !== keys2.length) return false;
+
+//   for (let i = 0; i < keys1.length; i++) {
+//     let key = keys1[i];
+//     if (keys2.indexOf(key) === -1) return false;
+//     if (typeof obj1[key] === "object") {
+//       if (objectsEqual(obj1[key], obj2[key])) {
+//         continue;
+//       } else {
+//         return false;
+//       }
+//     }
+//     if (obj1[key] !== obj2[key]) return false;
+//   }
+//   return true;
+// }
+
+// console.log(objectsEqual({ a: "foo" }, { a: "foo" })); // true
+// console.log(objectsEqual({ a: "foo", b: "bar" }, { a: "foo" })); // false
+// console.log(objectsEqual({ a: "foo", b: "bar" }, { b: "bar", a: "foo" })); // true
+// console.log(objectsEqual({}, {})); // true
+// console.log(objectsEqual({ a: "foo", b: undefined }, { a: "foo", c: 1 })); // false
+// console.log(
+//   objectsEqual(
+//     { a: "foo", b: { c: { d: "bar" } } },
+//     { a: "foo", b: { c: { d: "bar" } } }
+//   )
+// ); // true
+
+// ----------------------------------------------------------------------------------------
+
+// function createStudent(name, year) {
+//   return {
+//     name,
+//     year,
+//     courses: [],
+//     allNotes: {},
+
+//     info: function () {
+//       console.log(`${this.name} is a ${this.year} year student`);
+//     },
+
+//     listCourses() {
+//       console.log(this.courses);
+//     },
+
+//     addCourse(courseObj) {
+//       this.courses.push(courseObj);
+//     },
+
+//     getCourseName(subCode) {
+//       for (let course of this.courses) {
+//         if (course["code"] === subCode) return course["name"];
+//       }
+//     },
+
+//     addNote(code, note) {
+//       let courseName = this.getCourseName(code);
+//       if (!this.allNotes[courseName]) {
+//         this.allNotes[courseName] = [];
+//       }
+//       this.allNotes[courseName].push(note);
+//     },
+
+//     viewNotes() {
+//       let notesArr = [];
+//       Object.entries(this.allNotes).forEach((arr) => {
+//         notesArr.push(`${arr[0]}: ${arr[1].join("; ")}`);
+//       });
+//       console.log(notesArr.join("\n"));
+//     },
+
+//     updateNote(code, newNote) {
+//       let courseName = this.getCourseName(code);
+//       this.allNotes[courseName] = [newNote];
+//     },
+//   };
+// }
+
+// function createStudent(name, year) {
+//   return {
+//     name,
+//     year,
+//     courses: [],
+
+//     info: function () {
+//       console.log(`${this.name} is a ${this.year} year student`);
+//     },
+
+//     listCourses() {
+//       console.log(this.courses);
+//     },
+
+//     addCourse(courseObj) {
+//       this.courses.push(courseObj);
+//     },
+
+//     addNote(subCode, note) {
+//       let course = this.courses.find((course) => course.code === subCode);
+//       course.notes = course.notes ? course.notes + "; " + note : note;
+//     },
+
+//     viewNotes() {
+//       for (let course of this.courses) {
+//         if (course.notes) console.log(course.name + `: ` + course.notes);
+//       }
+//     },
+
+//     updateNote(subCode, newNote) {
+//       let course = this.courses.find((course) => course.code === subCode);
+//       course.notes = newNote;
+//     },
+//   };
+// }
+
+// let foo = createStudent("Foo", "1st");
+// // foo.info();
+// // "Foo is a 1st year student"
+// // foo.listCourses();
+// // [];
+// foo.addCourse({ name: "Math", code: 101 });
+// foo.addCourse({ name: "Advanced Math", code: 102 });
+// // foo.listCourses();
+// // [{ name: 'Math', code: 101 }, { name: 'Advanced Math', code: 102 }]
+// foo.addNote(101, "Fun course");
+// foo.addNote(101, "Remember to study for algebra");
+// // foo.viewNotes();
+// // "Math: Fun course; Remember to study for algebra"
+// foo.addNote(102, "Difficult subject");
+// // foo.viewNotes();
+// // "Math: Fun course; Remember to study for algebra"
+// // "Advance Math: Difficult subject"
+// foo.updateNote(101, "Fun course");
+// foo.viewNotes();
+// "Math: Fun course"
+// "Advanced Math: Difficult subject"
+// ----------------------------------------------------------------------------------------
+// let school = {
+//   students: [],
+
+//   validYear(year) {
+//     let validYears = ["1st", "2nd", "3rd", "4th", "5th"];
+//     return validYears.includes(year);
+//   },
+
+//   addStudent(name, year) {
+//     if (!this.validYear(year)) {
+//       console.log("Invalid Year");
+//       return;
+//     }
+//     let student = createStudent(name, year);
+//     this.students.push(student);
+//     return student;
+//   },
+
+//   enrollStudent(student, courseName, courseCode) {
+//     student.addCourse({ name: courseName, code: courseCode });
+//   },
+
+//   addGrade(student, courseCode, grade) {
+//     let course = student.courses.find((course) => course.code === courseCode);
+//     course["grade"] = grade;
+//   },
+
+//   getReportCard(student) {
+//     student.courses.forEach((course) => {
+//       if (course.grade) {
+//         console.log(`${course.name}: ${course.grade}`);
+//       } else {
+//         console.log(`${course.name}: In progress`);
+//       }
+//     });
+//   },
+
+//   courseReport(courseName) {
+//     let scores = [];
+//     let grades = [];
+//     for (const student of this.students) {
+//       let course = student.courses.find((course) => course.name === courseName);
+//       if (!course || !course.grade) continue;
+//       scores.push(`${student.name}: ${course.grade}`);
+//       grades.push(course.grade);
+//     }
+//     if (grades.length === 0) {
+//       console.log("undefined");
+//       return;
+//     }
+//     console.log(`=${courseName} Grades=`);
+//     scores.forEach((score) => console.log(score));
+//     console.log(`---`);
+//     let sum = grades.reduce((acc, grade) => acc + grade, 0);
+//     let avg = Math.round(sum / grades.length);
+//     console.log(`Course Average: ${avg}`);
+//   },
+// };
+
+// let sid = school.addStudent("Sid", "3rd");
+// console.log(sid);
+// school.enrollStudent(sid, "Math", 101);
+// school.enrollStudent(sid, "Advanced Math", 102);
+// school.enrollStudent(sid, "Physics", 202);
+// school.addGrade(sid, 101, 95);
+// school.addGrade(sid, 102, 90);
+// school.getReportCard(sid);
+
+// let mary = school.addStudent("Mary", "1st");
+// // console.log(mary);
+// school.enrollStudent(mary, "Math", 101);
+// school.addGrade(mary, 101, 91);
+// school.getReportCard(mary);
+
+// let kim = school.addStudent("Kim", "3rd");
+// // console.log(kim);
+// school.enrollStudent(kim, "Math", 101);
+// school.enrollStudent(kim, "Advanced Math", 102);
+// school.addGrade(kim, 101, 93);
+// school.addGrade(kim, 102, 90);
+// school.getReportCard(kim);
+
+// school.courseReport("Math");
+// school.courseReport("Advanced Math");
+// school.courseReport("Physics");
+
+// --------------------------------FUNCTION CONTEXT----------------------------------------
+// ----------------------------------------------------------------------------------------
+
+// let franchise = {
+//   name: "How to Train Your Dragon",
+//   allMovies: function () {
+//     let self = this;
+//     return [1, 2, 3].map(function (number) {
+//       return self.name + " " + number;
+//     });
+//   },
+// };
+
+// console.log(franchise.allMovies());
+// ----------------------------------------------------------------------------------------
+
+// let franchise = {
+//   name: "How to Train Your Dragon",
+//   allMovies: function () {
+//     return [1, 2, 3].map(
+//       function (number) {
+//         return this.name + " " + number;
+//       }.bind(this)
+//     );
+//   },
+// };
+
+// console.log(franchise.allMovies());
+
+// // Writing your own bind() function
+// function concatWithNum(number) {
+//   return this.name + " " + number;
+// }
+
+// function myBind(fnName, context, ...args1) {
+//   return function (...args2) {
+//     let args = args1.concat(args2);
+//     return fnName.call(context, ...args);
+//   };
+// }
+
+// let franchise1 = {
+//   name: "How to Train Your Dragon",
+//   allMovies() {
+//     return [1, 2, 3].map(franchise1BoundToConcatWithNum);
+//   },
+// };
+
+// let franchise1BoundToConcatWithNum = myBind(concatWithNum, franchise1);
+
+// console.log(franchise1.allMovies());
+
+// ----------------------------------------------------------------------------------------
+
+// function myFilter(array, func, context) {
+//   let result = [];
+//   // func = func.bind(context);
+
+//   array.forEach(function (value) {
+//     if (func.call(context, value)) {
+//       result.push(value);
+//     }
+//   });
+
+//   return result;
+// }
+
+// let filter = {
+//   allowedValues: [5, 6, 9],
+// };
+
+// console.log(
+//   myFilter(
+//     [2, 1, 3, 4, 5, 6, 9, 12],
+//     function (val) {
+//       return this.allowedValues.indexOf(val) >= 0;
+//     },
+//     filter
+//   )
+// );
+
+// -----------------------------Object Creation Patterns-----------------------------------
+// ----------------------------------------------------------------------------------------
+
+// name property added to make objects easier to identify
+// const foo = { name: "foo" };
+// const bar = Object.create(foo);
+// bar.name = "bar";
+// const baz = Object.create(bar);
+// baz.name = "baz";
+// const qux = Object.create(baz);
+// qux.name = "qux";
+
+// // foo.ancestors = function () {
+// //   let protoChain = [];
+// //   let currObj = this;
+// //   let currProto = Object.getPrototypeOf(currObj);
+// //   while (currProto !== null) {
+// //     protoChain.push(currProto["name"] || "Object.prototype");
+// //     currObj = currProto;
+// //     currProto = Object.getPrototypeOf(currObj);
+// //   }
+
+// //   return protoChain;
+// // };
+
+// // Using recursion
+// Object.prototype.ancestors = function ancestors() {
+//   let ancestor = Object.getPrototypeOf(this);
+
+//   if (ancestor.hasOwnProperty("name")) {
+//     return [ancestor.name].concat(ancestor.ancestors());
+//   }
+
+//   return ["Object.prototype"];
+// };
+
+// // console.log(Object.getPrototypeOf(foo));
+// console.log(qux.ancestors()); // returns ['baz', 'bar', 'foo', 'Object.prototype']
+// console.log(baz.ancestors()); // returns ['bar', 'foo', 'Object.prototype']
+// console.log(bar.ancestors()); // returns ['foo', 'Object.prototype']
+// console.log(foo.ancestors()); // returns ['Object.prototype']
+// console.log(`\n the end`);
+
+// ----------------------------------------------------------------------------------------
+
+// // class Person {
+// //   constructor(fname, lname, age, gender) {
+// // this.fname = fname;
+// // this.lname = lname;
+// // this.age = age;
+// // this.gender = gender;
+// //   }
+
+// //   fullName() {
+// //     return `${this.fname} ${this.lname}`;
+// //   }
+
+// //   communicate() {
+// //     console.log(`Communicating`);
+// //   }
+
+// //   eat() {
+// //     console.log(`Eating`);
+// //   }
+
+// //   sleep() {
+// //     console.log(`Sleeping`);
+// //   }
+// // }
+
+// function Person(fname, lname, age, gender) {
+//   this.fname = fname;
+//   this.lname = lname;
+//   this.age = age;
+//   this.gender = gender;
+// }
+
+// Person.prototype.fullName = function () {
+//   return `${this.fname} ${this.lname}`;
+// };
+
+// Person.prototype.communicate = function () {
+//   console.log(`Communicate`);
+// };
+
+// Person.prototype.eat = function () {
+//   console.log(`Eat`);
+// };
+
+// Person.prototype.sleep = function () {
+//   console.log(`Sleep`);
+// };
+
+// class Doctor extends Person {
+//   constructor(fname, lname, age, gender, specialization) {
+//     super(fname, lname, age, gender);
+//     this.specialization = specialization;
+//   }
+
+//   diagnose() {
+//     console.log("Diagnosing");
+//   }
+// }
+
+// class Professor extends Person {
+//   constructor(fname, lname, age, gender, subject) {
+//     super(fname, lname, age, gender);
+//     this.subject = subject;
+//   }
+
+//   teach() {
+//     console.log("Teaching");
+//   }
+// }
+
+// // class Student extends Person {
+// //   constructor(fname, lname, age, gender, degree) {
+// //     super(fname, lname, age, gender);
+// //     this.degree = degree;
+// //   }
+
+// //   study() {
+// //     console.log("Studying");
+// //   }
+// // }
+
+// function Student(fname, lname, age, gender, degree) {
+//   Person.call(this, fname, lname, age, gender);
+//   this.degree = degree;
+// }
+
+// Student.prototype = Object.create(Person.prototype);
+// Student.prototype.study = function () {
+//   console.log(`Studying`);
+// };
+// Student.prototype.constructor = Student;
+
+// // class GraduateStudent extends Student {
+// //   constructor(fname, lname, age, gender, degree, graduateDegree) {
+// //     super(fname, lname, age, gender, degree);
+// //     this.graduateDegree, graduateDegree;
+// //   }
+
+// //   research() {
+// //     console.log("Researching");
+// //   }
+// // }
+
+// function GraduateStudent(fname, lname, age, gender, degree, graduateDegree) {
+//   Student.call(this, fname, lname, age, gender, degree);
+//   this.graduateDegree = graduateDegree;
+// }
+
+// GraduateStudent.prototype = Object.create(Student.prototype);
+// GraduateStudent.prototype.research = function () {
+//   console.log(`Researching`);
+// };
+
+// GraduateStudent.prototype.constructor = GraduateStudent;
+
+// const person = new Person("Foo", "Bar", 21, "male");
+// console.log(person instanceof Person); // logs true
+// console.log(person instanceof Doctor); // logs false
+// console.log(person instanceof Professor); // logs false
+// console.log(person instanceof Student); // logs false
+// person.eat(); // logs 'Eating'
+// person.communicate(); // logs 'Communicating'
+// person.sleep(); // logs 'Sleeping'
+// console.log(person.fullName()); // logs 'Foo Bar'
+
+// const doctor = new Doctor("Bar", "Qux", 21, "female", "Pediatrics");
+// console.log(doctor instanceof Person); // logs true
+// console.log(doctor instanceof Doctor); // logs true
+// console.log(doctor instanceof Professor); // logs false
+// console.log(doctor instanceof Student); // logs false
+// doctor.eat(); // logs 'Eating'
+// doctor.communicate(); // logs 'Communicating'
+// doctor.sleep(); // logs 'Sleeping'
+// console.log(doctor.fullName()); // logs 'Bar Qux'
+// doctor.diagnose(); // logs 'Diagnosing'
+
+// const professor = new Professor("Bar", "Foo", 48, "female", "Law");
+// console.log(professor instanceof Person); // logs true
+// console.log(professor instanceof Professor); // logs true
+// console.log(professor instanceof Doctor); // logs false
+// console.log(professor instanceof Student); // logs false
+// professor.eat(); // logs 'Eating'
+// professor.communicate(); // logs 'Communicating'
+// professor.sleep(); // logs 'Sleeping'
+// console.log(professor.fullName()); // logs 'Bar Foo'
+// professor.teach(); // logs 'Teaching'
+
+// // function Professor(firstName, lastName, age, gender, subject) {
+// //   Person.call(this, firstName, lastName, age, gender);
+// //   this.subject = subject;
+// // }
+
+// // Professor.prototype = Object.create(Person.prototype);
+// // Professor.prototype.teach = () => {
+// //   console.log("Teaching");
+// // };
+// // Professor.prototype.constructor = Professor;
+
+// const graduateStudent = new GraduateStudent(
+//   "Qux",
+//   "Bar",
+//   21,
+//   "non-binary",
+//   "BS Industrial Engineering",
+//   "MS Industrial Engineering"
+// );
+// // logs true for next three statements
+// console.log(graduateStudent instanceof Person); // logs true
+// console.log(graduateStudent instanceof Student); // logs true
+// console.log(graduateStudent instanceof GraduateStudent); // logs true
+// console.log(graduateStudent instanceof Professor); // logs false
+// console.log(graduateStudent instanceof Doctor); // logs false
+// graduateStudent.eat(); // logs 'Eating'
+// graduateStudent.communicate(); // logs 'Communicating'
+// graduateStudent.sleep(); // logs 'Sleeping'
+// console.log(graduateStudent.fullName()); // logs 'Qux Bar'
+// graduateStudent.study(); // logs 'Studying'
+// graduateStudent.research(); // logs 'Researching'
+
+// --------------------------------------------------------------------------------------------------
+
+// function CircularBuffer(size) {
+//   this.size = size;
+//   this.circle = [];
+// }
+
+// CircularBuffer.prototype.get = function () {
+//   if (this.circle.length === 0) return null;
+//   return this.circle.shift();
+// };
+
+// CircularBuffer.prototype.put = function (val) {
+//   this.circle.push(val);
+//   if (this.circle.length > this.size) {
+//     this.circle.shift();
+//   }
+// };
+
+// class CircularBuffer {
+//   constructor(size) {
+//     this.buffer = new Array(size).fill(null);
+//     this.nextPosition = 0;
+//     this.oldestPosition = 0;
+//   }
+
+//   put(obj) {
+//     if (this.buffer[this.nextPosition] !== null) {
+//       this.oldestPosition = this.increment(this.nextPosition);
+//     }
+//     this.buffer[this.nextPosition] = obj;
+//     this.nextPosition = this.increment(this.nextPosition);
+//   }
+
+//   get() {
+//     let val = this.buffer[this.oldestPosition];
+//     this.buffer[this.oldestPosition] = null;
+//     if (val !== null) {
+//       this.oldestPosition = this.increment(this.oldestPosition);
+//     }
+//     return val;
+//   }
+
+//   increment(position) {
+//     return (position + 1) % this.buffer.length;
+//   }
+// }
+
+// let buffer = new CircularBuffer(3);
+// console.log(buffer.get() === null);
+
+// buffer.put(1);
+// buffer.put(2);
+// console.log(buffer.get() === 1);
+
+// buffer.put(3);
+// buffer.put(4);
+// console.log(buffer.get() === 2);
+// // console.log(buffer.circle);
+
+// buffer.put(5);
+// buffer.put(6);
+// buffer.put(7);
+// console.log(buffer.get() === 5);
+// console.log(buffer.get() === 6);
+// console.log(buffer.get() === 7);
+// console.log(buffer.get() === null);
+
+// let anotherbuffer = new CircularBuffer(4);
+// console.log(anotherbuffer.get() === null);
+
+// anotherbuffer.put(1);
+// anotherbuffer.put(2);
+// console.log(anotherbuffer.get() === 1);
+
+// anotherbuffer.put(3);
+// anotherbuffer.put(4);
+// console.log(anotherbuffer.get() === 2);
+
+// anotherbuffer.put(5);
+// anotherbuffer.put(6);
+// anotherbuffer.put(7);
+// console.log(anotherbuffer.get() === 4);
+// console.log(anotherbuffer.get() === 5);
+// console.log(anotherbuffer.get() === 6);
+// console.log(anotherbuffer.get() === 7);
+// console.log(anotherbuffer.get() === null);
+
+console.log(`\nthe end`);
